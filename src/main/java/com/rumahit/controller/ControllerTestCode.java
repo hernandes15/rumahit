@@ -56,4 +56,36 @@ public class ControllerTestCode {
 			return null;
 		}
 	}
+	
+	@GetMapping(path = "/irisanString/{input}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> irisan(@PathVariable String input) {
+		try {
+
+			String alphabet = "abcdefghijklmnopqrstuvwxyz";
+			String panjang = alphabet.length() > input.length() ? alphabet : input;
+			String pendek = alphabet.length() < input.length() ? alphabet : input;
+			
+			int output = 0;
+			int length = pendek.length();
+			
+			for (int i = 0; i < length; i++) {
+				for (int j = 0; j < length - i; j++) {
+					String obj1 = pendek.substring(i, length -j);
+					String obj2 = pendek.substring(j, length);
+					
+					if(panjang.contains(obj1))
+						output = obj1.length() > output ? obj1.length() : output;
+						
+						if(panjang.contains(obj2))
+							output = obj2.length() > output ? obj2.length() : output;
+				}
+				
+			}
+			
+			return new ResponseEntity<>("{\"output\":\""+output+"\"}", HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
